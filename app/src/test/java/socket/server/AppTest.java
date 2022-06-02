@@ -6,12 +6,14 @@ package socket.server;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import socket.server.io.RequestObject;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashMap;
 
 class AppTest {
     InetAddress host;
@@ -33,19 +35,30 @@ class AppTest {
 
     @Test
     void sendRequest() throws IOException, ClassNotFoundException, InterruptedException {
-        for (int i = 0; i < 5; i++) {
+        //for (int i = 0; i < 5; i++) {
             // opening new socket for every request here. we can also send multiple requests with one socket.
             Socket socket = new Socket(host.getHostName(), PORT);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.writeObject("request # " + i);
+
+
+            RequestObject object = new RequestObject();
+            object.managerName = "PrimeCalculationManager";
+            object.method = "findPrimes";
+            object.args = new HashMap<>();
+            object.args.put("n","200");
+
+            objectOutputStream.writeObject(object);
+
+
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
             String message = (String) objectInputStream.readObject();
             System.out.println("Message from server: " + message);
+
             objectOutputStream.close();
             objectInputStream.close();
             socket.close();
             Thread.sleep(100);
-        }
+        //}
     }
 
     @AfterEach
