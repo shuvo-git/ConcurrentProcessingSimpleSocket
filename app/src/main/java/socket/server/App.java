@@ -22,12 +22,13 @@ public class App {
         ServerSocket server = new ServerSocket(PORT);
         System.out.println("Starting socket server");
         int availableCPUCore = Runtime.getRuntime().availableProcessors();
+        ExecutorService executorService = Executors.newFixedThreadPool(availableCPUCore);
 
         while (true) {
 
+            System.out.println(Thread.currentThread().getName());
+            RequestHandlerService requestHandlerService = new RequestHandlerService(server.accept());
 
-            RequestHandlerService requestHandlerService = new RequestHandlerService(server);
-            ExecutorService executorService = Executors.newFixedThreadPool(availableCPUCore);
             Future<?> result = executorService.submit(requestHandlerService);
 
 //            if (result.get().equalsIgnoreCase(EXIT))

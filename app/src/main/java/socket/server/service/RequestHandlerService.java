@@ -1,5 +1,8 @@
 package socket.server.service;
 
+import socket.server.io.RequestObject;
+import socket.server.manager.PrimeCalculationManager;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,10 +10,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class RequestHandlerService implements Runnable {
-    private ServerSocket server;
+    private Socket socket;
 
-    public RequestHandlerService(ServerSocket server) {
-        this.server = server;
+    public RequestHandlerService(Socket socket) {
+        this.socket = socket;
     }
 
     @Override
@@ -20,14 +23,18 @@ public class RequestHandlerService implements Runnable {
         ObjectOutputStream objectOutputStream = null;
 
         try {
-            Socket socket = this.server.accept();
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
-            String message = (String) objectInputStream.readObject();
-            System.out.println("Message from client: " + message);
 
+
+            System.out.println(Thread.currentThread().getName());
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            RequestObject object = (RequestObject) objectInputStream.readObject();
+            System.out.println("Message from client: " + object.toString());
+
+            PrimeCalculationManager m = new PrimeCalculationManager();
+            int nPrimes = m.findPrimes(Integer.parseInt(object.args.get("n")));
 
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.writeObject("Hi client : " + message);
+            objectOutputStream.writeObject(nPrimes);
 
             return;
 
