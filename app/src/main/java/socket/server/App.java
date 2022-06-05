@@ -22,7 +22,7 @@ public class App {
         ServerSocket server = new ServerSocket(PORT);
         System.out.println("Starting socket server");
         int availableCPUCore = Runtime.getRuntime().availableProcessors();
-        ExecutorService executorService = Executors.newFixedThreadPool(availableCPUCore);
+        ExecutorService executorService = Executors.newFixedThreadPool(availableCPUCore-3);
 
         while (true) {
 

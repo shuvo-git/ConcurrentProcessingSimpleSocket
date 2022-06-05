@@ -1,6 +1,7 @@
 package socket.server.service;
 
 import socket.server.io.RequestObject;
+import socket.server.manager.ParallelPrimeCalculationManager;
 import socket.server.manager.PrimeCalculationManager;
 
 import java.io.IOException;
@@ -30,8 +31,10 @@ public class RequestHandlerService implements Runnable {
             RequestObject object = (RequestObject) objectInputStream.readObject();
             System.out.println("Message from client: " + object.toString());
 
-            PrimeCalculationManager m = new PrimeCalculationManager();
-            int nPrimes = m.findPrimes(Integer.parseInt(object.args.get("n")));
+            //PrimeCalculationManager m = new PrimeCalculationManager();
+            //int nPrimes = m.findPrimes(Integer.parseInt(object.args.get("n")));
+
+            int nPrimes = (int)ParallelPrimeCalculationManager.findPrimes(Integer.parseInt(object.args.get("n")));
 
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.writeObject(nPrimes);
