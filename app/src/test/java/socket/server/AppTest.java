@@ -39,11 +39,11 @@ class AppTest {
         int[] ns = new int[]{
                 200,300,400,500,600,
                 700,800,900,1000,10000,
-                50000,100000,200000,500000,10000000,
+                50000,100000,200000,500000,1000000,
                 20000000,50000000,100000000,200000000,500000000,
                 1000000000,2000000000
         };
-        for (int i = 0; i < 22; i++) {
+        for (int i = 0; i < 15; i++) {
             // opening new socket for every request here. we can also send multiple requests with one socket.
             Socket socket = new Socket(host.getHostName(), PORT);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
