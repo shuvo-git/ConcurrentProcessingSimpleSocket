@@ -21,4 +21,9 @@ public class PrimeCalculationManager {
                 return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "PrimeCalculationManager{}";
+    }
 }

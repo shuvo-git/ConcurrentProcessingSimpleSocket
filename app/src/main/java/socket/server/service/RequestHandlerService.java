@@ -7,8 +7,10 @@ import socket.server.manager.PrimeCalculationManager;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class RequestHandlerService implements Runnable {
     private Socket socket;
@@ -34,7 +36,23 @@ public class RequestHandlerService implements Runnable {
             //PrimeCalculationManager m = new PrimeCalculationManager();
             //int nPrimes = m.findPrimes(Integer.parseInt(object.args.get("n")));
 
-            int nPrimes = (int)ParallelPrimeCalculationManager.findPrimes(Integer.parseInt(object.args.get("n")));
+            String managerName = object.managerName;
+            String methodName = object.method;
+            String argsN  = object.args.get("n");
+
+            /*Object obj = Class.forName("socket.server.manager."+managerName).getConstructor().newInstance();
+            Class objClass = obj.getClass();
+            System.out.println(objClass.getName());
+
+            Method[] methods = objClass.getMethods();
+
+            Arrays.stream(methods).forEach(m-> System.out.println(m.getName()));
+
+            int nPrimes = 0;//(int)method.invoke(obj,Integer.parseInt(argsN));
+
+            //System.out.println("nPrimes = "+nPrimes);*/
+
+            int nPrimes = (int) ParallelPrimeCalculationManager.findPrimes(Integer.parseInt(argsN));
 
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.writeObject(nPrimes);

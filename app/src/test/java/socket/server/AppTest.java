@@ -43,14 +43,14 @@ class AppTest {
                 20000000,50000000,100000000,200000000,500000000,
                 1000000000,2000000000
         };
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 13; i++) {
             // opening new socket for every request here. we can also send multiple requests with one socket.
             Socket socket = new Socket(host.getHostName(), PORT);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
 
             RequestObject object = new RequestObject();
-            object.managerName = "PrimeCalculationManager";
+            object.managerName = "ParallelPrimeCalculationManager";
             object.method = "findPrimes";
             object.args = new HashMap<>();
             object.args.put("n",ns[i]+"");
