@@ -7,6 +7,8 @@ import socket.server.manager.PrimeCalculationManager;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -40,7 +42,12 @@ public class RequestHandlerService implements Runnable {
             String methodName = object.method;
             String argsN  = object.args.get("n");
 
-            /*Object obj = Class.forName("socket.server.manager."+managerName).getConstructor().newInstance();
+
+
+                Class<?> c = Class.forName("socket.server.manager."+managerName);
+                Constructor<?> cons = c.getConstructor();
+                Object obj = cons.newInstance();
+
             Class objClass = obj.getClass();
             System.out.println(objClass.getName());
 
@@ -48,9 +55,9 @@ public class RequestHandlerService implements Runnable {
 
             Arrays.stream(methods).forEach(m-> System.out.println(m.getName()));
 
-            int nPrimes = 0;//(int)method.invoke(obj,Integer.parseInt(argsN));
+            //int nPrimes = (int)method.invoke(obj,Integer.parseInt(argsN));
 
-            //System.out.println("nPrimes = "+nPrimes);*/
+            //System.out.println("nPrimes = "+nPrimes);
 
             int nPrimes = (int) ParallelPrimeCalculationManager.findPrimes(Integer.parseInt(argsN));
 

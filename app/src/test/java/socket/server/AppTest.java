@@ -50,7 +50,7 @@ class AppTest {
 
 
             RequestObject object = new RequestObject();
-            object.managerName = "ParallelPrimeCalculationManager";
+            object.managerName = "PrimeCalculationManager";
             object.method = "findPrimes";
             object.args = new HashMap<>();
             object.args.put("n",ns[i]+"");
