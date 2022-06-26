@@ -35,31 +35,13 @@ public class RequestHandlerService implements Runnable {
             RequestObject object = (RequestObject) objectInputStream.readObject();
             System.out.println("Message from client: " + object.toString());
 
-            //PrimeCalculationManager m = new PrimeCalculationManager();
-            //int nPrimes = m.findPrimes(Integer.parseInt(object.args.get("n")));
-
             String managerName = object.managerName;
             String methodName = object.method;
             String argsN  = object.args.get("n");
 
-
-
-                Class<?> c = Class.forName("socket.server.manager."+managerName);
-                Constructor<?> cons = c.getConstructor();
-                Object obj = cons.newInstance();
-
-            Class objClass = obj.getClass();
-            System.out.println(objClass.getName());
-
-            Method[] methods = objClass.getMethods();
-
-            Arrays.stream(methods).forEach(m-> System.out.println(m.getName()));
-
-            //int nPrimes = (int)method.invoke(obj,Integer.parseInt(argsN));
-
-            //System.out.println("nPrimes = "+nPrimes);
-
-            int nPrimes = (int) ParallelPrimeCalculationManager.findPrimes(Integer.parseInt(argsN));
+            Object obj = InvokerService.classInvoker(managerName);
+            Method m = InvokerService.methodInvoker(obj,methodName);
+            int nPrimes = InvokerService.invokeMethod(obj,m,argsN);
 
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.writeObject(nPrimes);
