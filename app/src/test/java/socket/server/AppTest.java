@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import socket.server.io.RequestObject;
-import socket.server.manager.PrimeCalculationManager;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,8 +16,8 @@ import java.net.Socket;
 import java.util.HashMap;
 
 class AppTest {
-    InetAddress host;
     private static final int PORT = 9876;
+    InetAddress host;
 
     @BeforeEach
     void initialize() throws IOException {
@@ -37,11 +36,11 @@ class AppTest {
     @Test
     void sendRequest() throws IOException, ClassNotFoundException, InterruptedException {
         int[] ns = new int[]{
-                200,300,400,500,600,
-                700,800,900,1000,10000,
-                50000,100000,200000,500000,1000000,
-                20000000,50000000,100000000,200000000,500000000,
-                1000000000,2000000000
+                200, 300, 400, 500, 600,
+                700, 800, 900, 1000, 10000,
+                50000, 100000, 200000, 500000, 1000000,
+                20000000, 50000000, 100000000, 200000000, 500000000,
+                1000000000, 2000000000
         };
         for (int i = 0; i < 13; i++) {
             // opening new socket for every request here. we can also send multiple requests with one socket.
@@ -53,12 +52,9 @@ class AppTest {
             object.managerName = "PrimeCalculationManager";
             object.method = "findPrimes";
             object.args = new HashMap<>();
-            object.args.put("n",ns[i]+"");
+            object.args.put("n", ns[i] + "");
 
             objectOutputStream.writeObject(object);
-
-
-
 
 
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());

@@ -4,16 +4,14 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public final class InvokerService
-{
+public final class InvokerService {
     private static final String PACKAGE_MANAGER = "socket.server.manager.";
 
-    public static Object classInvoker(String managerName)
-    {
+    public static Object classInvoker(String managerName) {
         Object obj = null;
 
         try {
-            Class<?> c = Class.forName(PACKAGE_MANAGER+managerName);
+            Class<?> c = Class.forName(PACKAGE_MANAGER + managerName);
             Constructor<?> cons = c.getConstructor();
             obj = cons.newInstance();
         } catch (ClassNotFoundException e) {
@@ -32,15 +30,15 @@ public final class InvokerService
 
     }
 
-    public static Method methodInvoker(Object obj, String methodName){
+    public static Method methodInvoker(Object obj, String methodName) {
         Method m = null;
 
         try {
             Class objClass = obj.getClass();
             System.out.println(objClass.getName());
 
-            Class[] argTypes = { int.class };
-            m = objClass.getMethod(methodName,argTypes);
+            Class[] argTypes = {int.class};
+            m = objClass.getMethod(methodName, argTypes);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } finally {
@@ -49,11 +47,11 @@ public final class InvokerService
 
     }
 
-    public static int invokeMethod(Object obj,Method m, String argsN){
+    public static int invokeMethod(Object obj, Method m, String argsN) {
         int nPrimes = 0;
 
         try {
-            nPrimes = (int)m.invoke(obj,Integer.parseInt(argsN));
+            nPrimes = (int) m.invoke(obj, Integer.parseInt(argsN));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

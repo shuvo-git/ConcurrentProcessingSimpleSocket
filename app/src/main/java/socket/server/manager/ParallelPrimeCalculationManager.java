@@ -1,26 +1,20 @@
 package socket.server.manager;
 
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
-public class ParallelPrimeCalculationManager extends RecursiveAction
-{
+public class ParallelPrimeCalculationManager extends RecursiveAction {
     private final Integer lo;
     private final Integer hi;
+    private final Integer THRESHOLD = 50000;
     private Integer value;
 
-    private final Integer THRESHOLD  = 50000;
-
-    public ParallelPrimeCalculationManager(Integer lo, Integer hi)
-    {
+    public ParallelPrimeCalculationManager(Integer lo, Integer hi) {
         this.lo = lo;
         this.hi = hi;
     }
 
     public static Integer findPrimes(Integer n) {
-        ParallelPrimeCalculationManager manager = new ParallelPrimeCalculationManager(0,n);
+        ParallelPrimeCalculationManager manager = new ParallelPrimeCalculationManager(0, n);
         manager.compute();
 
         return manager.getValue();
@@ -43,19 +37,19 @@ public class ParallelPrimeCalculationManager extends RecursiveAction
     @Override
     protected void compute() {
 
-        if((hi-lo)<=THRESHOLD){
-            System.out.println("In ForK Join: -- "+Thread.currentThread().getName());
+        if ((hi - lo) <= THRESHOLD) {
+            System.out.println("In ForK Join: -- " + Thread.currentThread().getName());
             Integer sum = 0;
-            for(Integer i=lo;i<hi;++i){
-                sum += this.isPrime(i)? 1:0;
+            for (Integer i = lo; i < hi; ++i) {
+                sum += this.isPrime(i) ? 1 : 0;
             }
             this.value = sum;
 
-        }else{
+        } else {
 
-            Integer mid = (lo+hi)/2;
-            ParallelPrimeCalculationManager left  = new ParallelPrimeCalculationManager(lo,mid);
-            ParallelPrimeCalculationManager right = new ParallelPrimeCalculationManager(mid,hi);
+            Integer mid = (lo + hi) / 2;
+            ParallelPrimeCalculationManager left = new ParallelPrimeCalculationManager(lo, mid);
+            ParallelPrimeCalculationManager right = new ParallelPrimeCalculationManager(mid, hi);
 
 //            Integer chunk = (hi+lo)/2+1,i=0;
 //            Integer chunkLow = lo;
@@ -65,7 +59,7 @@ public class ParallelPrimeCalculationManager extends RecursiveAction
             right.compute();
             left.join();
 
-            this.value = left.getValue()+ right.getValue();
+            this.value = left.getValue() + right.getValue();
 
         }
 

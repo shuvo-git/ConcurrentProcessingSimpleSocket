@@ -4,7 +4,9 @@ public class PrimeCalculationManager {
     // findPrimes finds the number of prime number inside given input n in most brute-force way (intentionally. don't optimize)
     // this method will take different execution time based on given input
 
-    public PrimeCalculationManager(){}
+    public PrimeCalculationManager() {
+    }
+
     public int findPrimes(int n) {
         int count = 0;
         for (int i = 2; i <= n; i++) {

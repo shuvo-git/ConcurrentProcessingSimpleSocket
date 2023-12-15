@@ -6,10 +6,7 @@ package socket.server;
 import socket.server.service.RequestHandlerService;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -18,11 +15,15 @@ public class App {
     private static final int PORT = 9876;
     private static final String EXIT = "EXIT";
 
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        new App().startServerAndAcceptRequest();
+    }
+
     public void startServerAndAcceptRequest() throws IOException, ClassNotFoundException {
         ServerSocket server = new ServerSocket(PORT);
         System.out.println("Starting socket server");
         int availableCPUCore = Runtime.getRuntime().availableProcessors();
-        ExecutorService executorService = Executors.newFixedThreadPool(availableCPUCore-3);
+        ExecutorService executorService = Executors.newFixedThreadPool(availableCPUCore - 3);
 
         while (true) {
 
@@ -36,10 +37,5 @@ public class App {
         }
 //        System.out.println("Shutting down socket server");
 //        server.close();
-    }
-
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException{
-        new App().startServerAndAcceptRequest();
     }
 }
